@@ -1,0 +1,6 @@
+MySQL-python
+flask
+flask-sqlalchemy-booster
+flask-security==1.7.4
+xlsxwriter
+python-dateutil<2.0
