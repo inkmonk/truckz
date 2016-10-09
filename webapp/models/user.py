@@ -6,6 +6,8 @@ class Role(db.Model, RoleMixin):
 
     __tablename__ = 'role'
 
+    _autogenerate_dict_struct_if_none_ = True
+
     id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String(30), unique=True)
     description = db.Column(db.String(200))
@@ -25,6 +27,8 @@ class User(db.Model, UserMixin):
 
     __tablename__ = 'user'
 
+    _autogenerate_dict_struct_if_none_ = True
+
     id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.Unicode(100), unique=True)
     email = db.Column(db.String(100), unique=True)
@@ -33,13 +37,18 @@ class User(db.Model, UserMixin):
     roles = db.relationship(
         'Role', secondary=role_user,
         backref=db.backref('users', lazy='dynamic'))
-    truck_owner = db.relationship("TruckOwner", uselist=False)
+    employing_truck_operator_id = db.Column(
+        db.Integer, db.ForeignKey('truck_operator.id'))
+
+    employing_truck_operator = db.relationship("TruckOperator")
 
 
-class TruckOwner(db.Model):
+class TruckOperator(db.Model):
+
+    _autogenerate_dict_struct_if_none_ = True
+
     id = db.Column(db.Integer, primary_key=True, unique=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     company_name = db.Column(db.Unicode(100), unique=True)
     city = db.Column(db.Unicode(100), unique=True)
 
-    user = db.relationship("User")
+    employees = db.relationship("User")

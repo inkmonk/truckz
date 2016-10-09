@@ -1,5 +1,5 @@
 from webapp.app_factory import create_app
-from webapp.models import db, User, Role, TruckOwner
+from webapp.models import db, User, Role, TruckOperator
 from flask_security.utils import encrypt_password
 from faker import Factory as FakerFactory
 
@@ -27,10 +27,12 @@ def seed_users(n=10):
         for _ in range(n)], keys=['email'])
 
 
-def seed_truck_owners(n=50):
-    for u in User.all(reverse=True, limit=n):
-        u.truck_owner = TruckOwner.new(user_id=u.id, company_name=fake.name(), city=fake.city())
-    db.session.commit()
+def seed_truck_operators(n=5):
+	for u in User.all(limit=n):
+		u.employing_truck_operator = TruckOperator.new(
+			company_name=fake.name(),
+			city=fake.city())
+	db.session.commit()
 
 
 if __name__ == '__main__':
@@ -38,5 +40,5 @@ if __name__ == '__main__':
     with app.test_request_context():
         create_admin_role()
         create_admin_user()
-        seed_users(100)
-        seed_truck_owners(50)
+        seed_users()
+        seed_truck_operators()

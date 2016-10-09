@@ -1,7 +1,7 @@
 from flask.ext.security import login_required, current_user
 from flask import Blueprint, abort
 from flask_sqlalchemy_booster.responses import as_processed_list, as_obj
-from ..models import TruckModel, Truck, TruckOwner, User
+from ..models import TruckModel, Truck, User, TruckOperator
 
 
 admin_api_bp = Blueprint('admin_api_bp', __name__)
@@ -67,19 +67,19 @@ def get_user(user_id):
     return User.get(user_id)
 
 
-@admin_api_bp.route("/truck-owners")
+@admin_api_bp.route("/truck-operators")
 @as_processed_list
-def list_truck_owners():
+def list_truck_operators():
     """
-    GET /admin-api/v1/truck-owners
+    GET /admin-api/v1/truck-operators
     """
-    return TruckOwner
+    return TruckOperator
 
 
-@admin_api_bp.route("/truck-owners/<int:truck_owner_id>")
+@admin_api_bp.route("/truck-operators/<int:truck_operator_id>")
 @as_obj
-def get_truck_owner(truck_owner_id):
+def get_truck_operator(truck_operator_id):
     """
-    GET /admin-api/v1/truck-owners/12
+    GET /admin-api/v1/truck-operators/12
     """
-    return TruckOwner.get(truck_owner_id)
+    return TruckOperator.get(truck_operator_id)

@@ -2,6 +2,8 @@ from .core import db
 
 
 class TruckModel(db.Model):
+
+    _autogenerate_dict_struct_if_none_ = True
     id = db.Column(db.Integer, primary_key=True, unique=True)
     company_name = db.Column(db.Unicode(100))
     model_name = db.Column(db.Unicode(100))
